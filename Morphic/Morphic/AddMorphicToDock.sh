@@ -24,6 +24,7 @@
 #  * Adobe Foundation
 #  * Consumer Electronics Association Foundation
 
+MORPHIC="Morphic.app"
 ADD_MESSAGE="Adding Morphic to Dock"
 ALREADY_MESSAGE="Morphic already in Dock"
 
@@ -33,23 +34,23 @@ log() {
 
 log "Start `basename $0`"
 
-defaults read com.apple.dock persistent-apps | grep "Morphic.app" > /dev/null
+defaults read com.apple.dock persistent-apps | grep "${MORPHIC}" > /dev/null
 if [ $? != "0" ]
 then
     log "$ADD_MESSAGE"
     defaults write com.apple.dock persistent-apps -array-add \
-    '<dict>
+    "<dict>
         <key>tile-data</key>
         <dict>
             <key>file-data</key>
             <dict>
                 <key>_CFURLString</key>
-                <string>/Applications/Morphic.app/</string>
+                <string>/Applications/${MORPHIC}/</string>
                 <key>_CFURLStringType</key>
                 <integer>0</integer>
             </dict>
         </dict>
-    </dict>' && killall "Dock"
+    </dict>" && killall "Dock"
 else
     log "$ALREADY_MESSAGE"
 fi
